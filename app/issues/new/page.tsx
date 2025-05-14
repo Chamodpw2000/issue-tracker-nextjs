@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createIssueSchema } from '@/app/ValidationSchemas'
 import { z } from 'zod';
+import ErrorMessage from '@/app/components/ErrorMessage'
 // Dynamically import SimpleMDE with SSR disabled
 const SimpleMDE = dynamic(
   () => import('react-simplemde-editor'),
@@ -43,13 +44,13 @@ const router = useRouter();
         
     })} className='max-w-xl space-y-3'>
       <TextField.Root placeholder="Enter the title of the issue" {...register('title')} />
-      {errors.title && <p className='text-red-500'>{errors.title.message}</p>}
+  <ErrorMessage>{errors.title?.message}</ErrorMessage>
       <Controller 
       name="description"
       control={control}
       render  ={({field})=><SimpleMDE placeholder="Enter the description of the issue"  {...field}/>}
 />
-        {errors.description && <p className='text-red-500'>{errors.description.message}</p>}
+<ErrorMessage>{errors.description?.message}</ErrorMessage>
       <Button>Submit</Button>
     </form>
 </div>
