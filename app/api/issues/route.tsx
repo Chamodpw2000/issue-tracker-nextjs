@@ -27,3 +27,21 @@ export async function POST(request: NextRequest){
 
 }
 
+
+export async function GET(request: NextRequest){
+
+    
+    try {
+const issues =await  prisma.issue.findMany();
+console.log("issues are", issues);
+
+return NextResponse.json(issues,{status:200});        
+    } catch (error: any) {
+
+        return NextResponse.json({error:error.message},{status:500});
+
+
+        
+    }
+}
+
