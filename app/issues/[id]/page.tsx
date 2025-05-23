@@ -15,6 +15,8 @@ const IssueDetailsPage = async ({params}:Props) => {
   if(!issue) notFound()
 
 
+
+
   
   
     return (

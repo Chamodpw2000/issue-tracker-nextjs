@@ -1,10 +1,11 @@
 'use client'
-import { Table } from '@radix-ui/themes'
+import { Table} from '@radix-ui/themes'
 import React from 'react'
 import IssueStatusBadge from '../components/IssueStatusBadge'
 import { Interface } from 'readline'
 import { Status } from '@prisma/client';
-import Link from 'next/link'
+import Link from '../components/Link'
+
 
 interface Issue {
   id: number;
@@ -15,12 +16,12 @@ interface Issue {
 }
 
 
-const IssueTable = ({issues} : {issues:Issue[]}) => {
+const IssueTable = ({ issues }: { issues: Issue[] }) => {
   return (
     <div>
 
 
-        <Table.Root variant='surface'>
+      <Table.Root variant='surface'>
 
         <Table.Header>
           <Table.Row>
@@ -40,10 +41,9 @@ const IssueTable = ({issues} : {issues:Issue[]}) => {
           {issues.map(issue => (
             <Table.Row key={issue.id}>
               <Table.Cell>
-                <Link href={`/issues/${issue.id}`} className='text-blue-500 hover:underline'> {issue.title}
-</Link>
-                
-               
+              
+<Link href={`/issues/${issue.id}`} children={issue.title} />
+
                 <div className=' md:hidden my-3'>
 
                   <IssueStatusBadge status={issue.status} />
