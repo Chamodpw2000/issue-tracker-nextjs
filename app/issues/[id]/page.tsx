@@ -5,6 +5,10 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Pencil2Icon } from '@radix-ui/react-icons'
+import EditIssueButton from '../_components/EditIssueButton'
+import DeleteIssueButton from '../_components/DeleteIssueButton'
+import IssueDetails from '../_components/IssueDetails'
+import { Box, Flex, Grid } from '@radix-ui/themes'
 
 
 interface Props {
@@ -22,46 +26,23 @@ const IssueDetailsPage = async ({ params }: Props) => {
 
 
   return (
-    <div className='flex gap-x-5 flex-col md:flex-row gap-y-5 '>
+    <Grid columns={{ initial: "1", md: '5' }} gap="5" >
 
-      <div className=' w-full max-w-2xl'>
-        <h1 className='text-2xl font-bold'>{issue.title}</h1>
-        <p className='text-sm text-gray-500'>{new Date(issue.createdAt).toDateString()}</p>
+      <Box className='lg:col-span-4'>
 
-        <div className="mt-5">
+        <IssueDetails issue={issue} />
 
-          <IssueStatusBadge status={issue.status} />
 
-        </div>
-
-        <div className='mt-5 border-2 rounded-2xl p-5'>
-          <div className='prose'>
-            <ReactMarkdown>{issue.description}</ReactMarkdown>
-
-          </div>
-
-        </div>
+      </Box>
 
 
 
+      <Flex direction="column" gap="5"  align={"center"} justify="center" >
 
-      </div>
+        <EditIssueButton issueId={issue.id}/>
+        <DeleteIssueButton issueId={issue.id} />
 
-
-
-
-      <div className='p-2 w-[200px] rounded-md flex h-[50px] border-2  justify-center bg-purple-600 text-white font-bold hover:bg-purple-800 items-center'>
-        <Link href={`/issues/${issue.id}/edit`}>
-
-          <div className='flex items-baseline gap-x-3 '>
-
-            <Pencil2Icon />  Edit Issue
-          </div>
-
-        </Link>
-
-
-      </div>
+      </Flex>
 
 
 
@@ -71,7 +52,9 @@ const IssueDetailsPage = async ({ params }: Props) => {
 
 
 
-    </div>
+
+
+    </Grid>
   )
 }
 
