@@ -5,49 +5,52 @@ import Link from 'next/link'
 import { AiFillDelete } from 'react-icons/ai'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import Spinner from '@/app/components/Spinner'
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
+
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const router = useRouter();
     const [error, setError] = useState(false)
 
     const deleteIssue = async () => {
+        setIsDeleting(true);
 
 
-                                try {
-                                  await  axios.delete(`/api/issues/${issueId}`)
-                                        .then(() => {
-                                            router.push('/issues')
-                                        })
-                                } catch (error) {
+        try {
+            await axios.delete(`/api/issues/${issueId}`)
+                .then(() => {
+                    router.push('/issues')
+                })
+        } catch (error) {
 
-                                    setError(true)
+            setError(true)
 
-                                }
+        }
+
+        setIsDeleting(false);
 
 
-                            }
+    }
     return (
         <>
 
             <AlertDialog.Root>
 
                 <AlertDialog.Trigger>
-                    <Button color='red' style={{ width: '100%' }} >
+                   <Button color='red' style={{ width: '100%' }} disabled={isDeleting}>
+  <Flex gap="3" align="center" justify="center">
+    <Box><AiFillDelete /></Box>
+    <Box>Delete Issue</Box>
+    {isDeleting && (
+      <Box ml="1">
+        <Spinner />
+      </Box>
+    )}
+  </Flex>
+</Button>
 
-                        <Flex gap="3" align={"center"} justify="center">
-
-                            <Box><AiFillDelete /></Box>
-                            <Box>Delete Issue</Box>
-
-                        </Flex>
-
-
-
-
-
-
-                    </Button>
 
 
                 </AlertDialog.Trigger>
@@ -80,12 +83,12 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
 
 
             <AlertDialog.Root open={error}>
-  <AlertDialog.Content>
-                <AlertDialog.Title>
-                    <Box className='text-red-500'>An error occurred while deleting the issue. Please try again</Box>
-                </AlertDialog.Title>
+                <AlertDialog.Content>
+                    <AlertDialog.Title>
+                        <Box className='text-red-500'>An error occurred while deleting the issue. Please try again</Box>
+                    </AlertDialog.Title>
 
-              
+
 
                     <Button variant='soft' color='gray' style={{ width: '100%' }} onClick={() => setError(false)}>
                         OK !

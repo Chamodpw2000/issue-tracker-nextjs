@@ -1,14 +1,11 @@
-import IssueStatusBadge from '@/app/components/IssueStatusBadge'
 import { prisma } from '@/prisma/client'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import React from 'react'
-import ReactMarkdown from 'react-markdown'
-import { Pencil2Icon } from '@radix-ui/react-icons'
-import EditIssueButton from '../_components/EditIssueButton'
-import DeleteIssueButton from '../_components/DeleteIssueButton'
-import IssueDetails from '../_components/IssueDetails'
 import { Box, Flex, Grid } from '@radix-ui/themes'
+import { notFound } from 'next/navigation'
+import DeleteIssueButton from '../_components/DeleteIssueButton'
+import EditIssueButton from '../_components/EditIssueButton'
+import IssueDetails from '../_components/IssueDetails'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/auth/authOptions'
 
 
 interface Props {
@@ -16,6 +13,9 @@ interface Props {
 }
 
 const IssueDetailsPage = async ({ params }: Props) => {
+
+  const session = await getServerSession(authOptions);
+  
   const issue = await prisma.issue.findUnique({ where: { id: parseInt(params.id) } })
 
   if (!issue) notFound()
@@ -37,7 +37,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
 
 
 
-      <Flex direction="column" gap="5"  align={"center"} justify="center" >
+      { session && <Flex direction="column" gap="5"  align={"center"} justify="center" >
 
         <EditIssueButton issueId={issue.id}/>
         <DeleteIssueButton issueId={issue.id} />
@@ -45,7 +45,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
       </Flex>
 
 
-
+  }
 
 
 
