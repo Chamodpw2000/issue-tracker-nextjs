@@ -5,6 +5,8 @@ import NavBar from "./NavBar";
 import "@radix-ui/themes/styles.css";
 import {Container, Theme, ThemePanel} from "@radix-ui/themes";
 import Provider from "./auth/Provider";
+import QueryClientProvider from "./QueryClientProvider";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +33,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+<Toaster/>
+        <QueryClientProvider>
 <Provider>
       
    <Theme accentColor="violet" grayColor="sand">
@@ -50,6 +54,8 @@ export default function RootLayout({
         </Theme>
     
 </Provider>
+
+</QueryClientProvider>
      
       </body>
     </html>
