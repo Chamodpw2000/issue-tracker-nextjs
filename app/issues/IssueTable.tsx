@@ -5,6 +5,9 @@ import IssueStatusBadge from '../components/IssueStatusBadge'
 import { Interface } from 'readline'
 import { Status } from '@prisma/client';
 import Link from '../components/Link'
+import NextLink from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import { columns } from './constants'
 
 
 interface Issue {
@@ -16,7 +19,13 @@ interface Issue {
 }
 
 
+
+
 const IssueTable = ({ issues }: { issues: Issue[] }) => {
+
+
+
+const searchParams = useSearchParams();
   return (
     <div>
 
@@ -25,9 +34,27 @@ const IssueTable = ({ issues }: { issues: Issue[] }) => {
 
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell> Issue </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className='hidden md:table-cell'>Status</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className='hidden md:table-cell'>Created At</Table.ColumnHeaderCell>
+            {
+              columns.map((column) => (
+                <Table.ColumnHeaderCell key={column.value} className={column.className}>
+                  <NextLink href={{
+                    query: { 
+                      ...Object.fromEntries(searchParams.entries()), 
+                      orderBy: column.value, 
+                      orderDirection: 'asc' 
+                    }
+                  }}>{column.label}</NextLink>
+
+                  {
+                    searchParams.get('orderBy') === column.value && searchParams.get('orderDirection') === 'asc' ? 
+                    <span className='ml-2'>↑</span> : 
+                    searchParams.get('orderBy') === column.value && searchParams.get('orderDirection') === 'desc' ? 
+                    <span className='ml-2'>↓</span> : null
+                  }
+         
+                </Table.ColumnHeaderCell>
+              ))
+            }
 
 
           </Table.Row>

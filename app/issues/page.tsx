@@ -2,40 +2,47 @@ import React from 'react'
 import IssueActions from './IssueActions'
 import IssueTable from './IssueTable'
 import { prisma } from '@/prisma/client'
-import { Status } from '@prisma/client'
+import { Issue, Status } from '@prisma/client'
+import { columns } from './constants'
 
-interface Props{
-  searchParams: Promise<{ status?: Status}>
+interface Props {
+  searchParams: Promise<
+    {
+      status?: Status,
+      orderBy?:keyof Issue,
+     }>
 }
 
-const IssuesPage = async ({searchParams}: Props) => {
+const IssuesPage = async ({ searchParams }: Props) => {
   // Await the searchParams promise
-  const resolvedSearchParams = await searchParams;
+  const awaitedSearchParams = await searchParams;
   
-  console.log("📋 IssuesPage rendered");
-  console.log("📋 Full searchParams:", JSON.stringify(resolvedSearchParams));
-  console.log("📋 searchParams.status:", resolvedSearchParams.status);
-  console.log("📋 Type of searchParams.status:", typeof resolvedSearchParams.status);
+  // Fix the orderBy logic with proper type checking
+  // Only allow valid Issue keys for orderBy
+  const validOrderByKeys: (keyof Issue)[] = columns.map(column => column.value);
   
-  const whereClause = resolvedSearchParams.status ? { status: resolvedSearchParams.status } : {};
-  console.log("📋 Where clause:", JSON.stringify(whereClause));
   
+  const orderBy = awaitedSearchParams.orderBy && 
+                  validOrderByKeys.includes(awaitedSearchParams.orderBy as keyof Issue)
+    ? { [awaitedSearchParams.orderBy]: 'asc' as const }
+    : { createdAt: 'asc' as const };
+
+  let status = awaitedSearchParams.status ? awaitedSearchParams.status : undefined;
+  if (status !== undefined && !Object.values(Status).includes(status)) {
+    status = undefined;
+  }
+
   const issues = await prisma.issue.findMany({
-    where: whereClause
+    where: {
+      status
+    },
+    orderBy
   });
-  
-  console.log("📋 Found issues:", issues.length);
-  
+
   return (
     <div>
-      <div style={{padding: '10px', background: '#f0f0f0', marginBottom: '10px'}}>
-        <strong>Debug Info:</strong><br/>
-        searchParams: {JSON.stringify(resolvedSearchParams)}<br/>
-        status: {resolvedSearchParams.status || 'undefined'}<br/>
-        issues found: {issues.length}
-      </div>
-      <IssueActions/>
-      <IssueTable issues={issues}/>
+      <IssueActions />
+      <IssueTable issues={issues} />
     </div>
   )
 }
