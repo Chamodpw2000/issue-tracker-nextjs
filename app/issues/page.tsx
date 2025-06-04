@@ -5,6 +5,9 @@ import { prisma } from '@/prisma/client'
 import { Issue, Status } from '@prisma/client'
 import { columns } from './constants'
 import Pagination from '../components/pagination'
+import { Flex, Grid } from '@radix-ui/themes'
+import IssueSummary from './IssueSummary'
+import IssueChart from './IssueChart'
 
 interface Props {
   searchParams: Promise<
@@ -55,6 +58,9 @@ const issueCount = await prisma.issue.count({where:{status}})
       <IssueActions />
       <IssueTable issues={issues} />
       <Pagination pageSize={pageSize} currentPage={pageNumber} itemCount={issueCount}/>
+
+
+
     </div>
   )
 }

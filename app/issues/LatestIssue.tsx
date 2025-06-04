@@ -13,7 +13,8 @@ const issues =await prisma.issue.findMany({
 
 
   return (
-    <div>
+    <div className='
+w-full '>
 <Card>
     <Heading as='h2' size='5' className='mb-5'>Latest Issues</Heading>
         <Table.Root>
