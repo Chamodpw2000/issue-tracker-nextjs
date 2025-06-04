@@ -30,7 +30,7 @@ const Pagination = ({itemCount,pageSize,currentPage}:Props) => {
 
   return (
   <div>
-    <div className='flex items-center justify-center gap-2'>
+    <div className='flex items-center justify-center gap-2 mt-5'>
         <Button color='gray' variant='soft' disabled={currentPage === 1} 
         
         onClick={()=>{changePage(1)}}

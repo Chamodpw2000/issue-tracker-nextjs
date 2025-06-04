@@ -28,6 +28,7 @@ onValueChange={(status) => {
   
   if (status && status !== "ALL") {
     params.set('status', status);
+    params.set('page', '1'); 
   } else {
     params.delete('status');
   }

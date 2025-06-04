@@ -1,4 +1,5 @@
 import Pagination from "./components/pagination";
+import LatestIssue from "./issues/LatestIssue";
 
 interface SearchParams {
   searchParams: {page: string};
@@ -8,10 +9,9 @@ interface SearchParams {
 export default function Home({ searchParams }: SearchParams) {
   return (
     <div>
-      Hello World
+<LatestIssue/>
 
 
-      <Pagination itemCount={167} pageSize={10} currentPage={parseInt(searchParams.page)} />
     </div>
   );
 }
