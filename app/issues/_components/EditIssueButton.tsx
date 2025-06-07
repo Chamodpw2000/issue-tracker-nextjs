@@ -1,7 +1,6 @@
 'use client'
-import { Box, Button, Flex } from '@radix-ui/themes'
-import React from 'react'
 import { Pencil2Icon } from '@radix-ui/react-icons'
+import { Box, Button, Flex } from '@radix-ui/themes'
 import Link from 'next/link'
 
 const EditIssueButton = ({ issueId }: { issueId: number }) => {

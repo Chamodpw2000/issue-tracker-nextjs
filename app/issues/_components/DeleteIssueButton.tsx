@@ -1,11 +1,10 @@
 'use client'
+import Spinner from '@/app/components/Spinner'
 import { AlertDialog, Box, Button, Flex } from '@radix-ui/themes'
-import React, { useState } from 'react'
-import Link from 'next/link'
-import { AiFillDelete } from 'react-icons/ai'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import Spinner from '@/app/components/Spinner'
+import { useState } from 'react'
+import { AiFillDelete } from 'react-icons/ai'
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
 
@@ -23,7 +22,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
                 .then(() => {
                     router.push('/issues')
                 })
-        } catch (error) {
+        } catch  {
 
             setError(true)
 

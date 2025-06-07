@@ -1,9 +1,8 @@
 import { prisma } from "@/prisma/client";
-import Pagination from "./components/pagination";
+import { Flex, Grid } from "@radix-ui/themes";
+import IssueChart from "./issues/IssueChart";
 import IssueSummary from "./issues/IssueSummary";
 import LatestIssue from "./issues/LatestIssue";
-import IssueChart from "./issues/IssueChart";
-import { Grid, Flex } from "@radix-ui/themes";
 
 
 

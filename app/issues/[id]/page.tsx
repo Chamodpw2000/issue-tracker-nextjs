@@ -1,63 +1,38 @@
-import { authOptions } from '@/app/auth/authOptions'
-import { prisma } from '@/prisma/client'
-import { Box, Flex, Grid } from '@radix-ui/themes'
-import { getServerSession } from 'next-auth'
-import { notFound } from 'next/navigation'
-import DeleteIssueButton from '../_components/DeleteIssueButton'
-import EditIssueButton from '../_components/EditIssueButton'
-import IssueDetails from '../_components/IssueDetails'
-import AssigneeSelect from './AssigneeSelect'
-
+import { prisma } from '@/prisma/client';
+import { notFound } from 'next/navigation';
 
 interface Props {
-  params: { id: string }
+    params: Promise<{ id: string }>;
 }
 
-
-const IssueDetailsPage = async ({ params }: Props) => {
-
-  const session = await getServerSession(authOptions);
-  
-  const issue = await prisma.issue.findUnique({ where: { id: parseInt(params.id) } })
-
-  if (!issue) notFound()
-
-
-
-
-
-
-  return (
-    <Grid columns={{ initial: "1", md: '5' }} gap="5" >
-
-      <Box className='lg:col-span-4'>
-
-        <IssueDetails issue={issue} />
-
-
-      </Box>
-
-
-
-      { session && <Flex direction="column" gap="5"  align={"center"} justify="center" >
-<AssigneeSelect issue={issue}/>
-        <EditIssueButton issueId={issue.id}/>
-        <DeleteIssueButton issueId={issue.id} />
-
-      </Flex>
-
-
-  }
-
-
-
-
-
-
-
-
-    </Grid>
-  )
+const IssueDetailPage = async ({ params }: Props) => {
+    const { id } = await params;
+    
+    const issue = await prisma.issue.findUnique({
+        where: { id: parseInt(id) },
+        include: {
+            assignedToUser: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true
+                }
+            }
+        }
+    });
+    
+    if (!issue) notFound();
+    
+    return (
+        <div>
+            {/* Your existing JSX content here */}
+            <h1>{issue.title}</h1>
+            <p>{issue.description}</p>
+            {issue.assignedToUser && (
+                <p>Assigned to: {issue.assignedToUser.name}</p>
+            )}
+        </div>
+    );
 }
 
-export default IssueDetailsPage
+export default IssueDetailPage;

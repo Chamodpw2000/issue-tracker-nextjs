@@ -74,7 +74,7 @@ const IssueForm = ({ issue }: Props) => {
 
           router.push('/issues')
           router.refresh();
-        } catch (error) { setError("An error occurred while creating the issue. Please try again "); }
+        } catch{ setError("An error occurred while creating the issue. Please try again "); }
 
       })} className='max-w-xl space-y-3'>
         <TextField.Root defaultValue={issue?.title} placeholder="Enter the title of the issue" {...register('title')} />

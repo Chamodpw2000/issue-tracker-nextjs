@@ -1,6 +1,5 @@
 import IssueStatusBadge from '@/app/components/IssueStatusBadge'
 import { Issue } from '@prisma/client'
-import React from 'react'
 import ReactMarkdown from 'react-markdown'
 
 interface Props{

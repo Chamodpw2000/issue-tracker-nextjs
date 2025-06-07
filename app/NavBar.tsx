@@ -1,12 +1,10 @@
 'use client'
-import Link from 'next/link'
-import Image from 'next/image'
-import React from 'react'
-import { AiFillBug } from "react-icons/ai";
-import { usePathname } from 'next/navigation';
+import { Avatar, Container, DropdownMenu } from '@radix-ui/themes';
 import classNames from 'classnames';
 import { useSession } from 'next-auth/react';
-import { Avatar, Container, DropdownMenu } from '@radix-ui/themes';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { AiFillBug } from "react-icons/ai";
 
 const NavBar = () => {
     const currentPath = usePathname();

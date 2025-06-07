@@ -1,10 +1,9 @@
 'use client'
 import { Issue } from '@prisma/client';
-import { Select } from '@radix-ui/themes'
+import { Select } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { User } from 'next-auth';
-import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
@@ -22,7 +21,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
           await axios.patch(`/api/issues/${issue.id}`, {
             assignedToUserId
           });
-        } catch (error) {
+        } catch {
 
           toast.error('Failed to assign user');
 
